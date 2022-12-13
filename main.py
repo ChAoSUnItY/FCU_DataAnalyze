@@ -7,7 +7,7 @@ import matplotlib.pyplot as plot
 # setup
 finalDict: Dict[str, MutableSequence[float]] = defaultdict(list)
 
-# read csv
+# read csvS
 df = pd.read_csv('stack-overflow-annual-developer-survey-2022/survey_results_public.csv')
 
 # filter out unnecessary columns and entries contains NaN 
@@ -42,7 +42,7 @@ finalDict = {k: mean(v) for k, v in finalDict.items()}
 # Order by the value so plot won't being a mess
 
 usersDict = sorted(usersDict.items(), key=lambda x: x[1])
-finalDict = sorted(finalDict.items(), key=lambda x: x[1])
+finalDict = sorted(finalDict.items(), key=lambda x: x[1], reverse=True)
 
 # Show it!
 
@@ -50,11 +50,33 @@ finalDict = sorted(finalDict.items(), key=lambda x: x[1])
 
 plot.figure(0)
 plot.plot(*zip(*finalDict))
+plot.xlabel("Languages")
+plot.ylabel("Avg Salary")
 
 # Then show users
 
 plot.figure(1)
 plot.plot(*zip(*usersDict))
+plot.xlabel("Languages")
+plot.ylabel("Users")
+
+# But in reality the entries are too many so the plot is too messy, 
+# to solve this, we should select a quantity of data to show and review
+
+# In this case, we take 15 mosts to show
+
+users10Dict = usersDict[:15]
+final10Dict = finalDict[:15]
+
+plot.figure(2)
+plot.plot(*zip(*final10Dict))
+plot.xlabel("Languages")
+plot.ylabel("Avg Salary")
+
+plot.figure(3)
+plot.plot(*zip(*users10Dict))
+plot.xlabel("Languages")
+plot.ylabel("Users")
 
 # Finally show it!
 
